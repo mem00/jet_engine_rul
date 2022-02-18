@@ -15,8 +15,6 @@ services:
     #           - gpu
     ports:
       - 80:80
-    env_file:
-      - .env
     volumes:
       - /Users/michaelmcguire/jet_engine_rul:/root/a/folder
     restart: on-failure
