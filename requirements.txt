@@ -1,2 +1,6 @@
 flask
 Flask
+tensorflow
+sklearn
+pandas
+numpy
