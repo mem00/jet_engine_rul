@@ -1,4 +1,3 @@
-from typing import Sequence
 import tensorflow as tf
 import pandas as pd
 import numpy as np
@@ -45,6 +44,8 @@ def get_test_sequence():
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
     # path = os.path.join(ROOT_DIR + '/static/test_data/')
     fd001_test = pd.read_csv(ROOT_DIR + "/static/test_data/test_FD001.txt", sep='\s+')
+    fd001_rul = pd.read_csv(ROOT_DIR + "/static/test_data/RUL_FD001.txt", sep='\s+', names=['RemainingUsefulLife'])
+    fd001_rul = fd001_rul.clip(upper=125)
 
     fd001_test.columns = COL_NAMES
 
@@ -64,7 +65,7 @@ def get_test_sequence():
     random_engine = X_test[rand_index,:,:]
     random_engine = np.float32(random_engine)
     random_engine = random_engine.reshape(1, random_engine.shape[0], random_engine.shape[1])
-    return random_engine
+    return random_engine, fd001_rul.iloc[rand_index, 0]
 
 def predict_rul():
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -77,17 +78,15 @@ def predict_rul():
     interpreter = tf.lite.Interpreter(model_content=tflite_lstm_model)
     interpreter.allocate_tensors()
 
-    print(interpreter.get_input_details(), "$$$$$")
 
     input_index = interpreter.get_input_details()[0]["index"]
     output_index = interpreter.get_output_details()[0]["index"]
 
-    interpreter.set_tensor(input_index,get_test_sequence())
+    sequence, actual_rul = get_test_sequence()
+    interpreter.set_tensor(input_index, sequence)
     # Invoke the interpreter.
     interpreter.invoke()
 
     prediction = interpreter.get_tensor(output_index)
 
-    return prediction
-
-
+    return prediction, actual_rul
