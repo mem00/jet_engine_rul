@@ -19,4 +19,5 @@ services:
       - /Users/michaelmcguire/jet_engine_rul:/root/a/folder
     restart: on-failure
     user: "root"
-    command: "gunicorn -b 0.0.0.0:80 app:server"
+    command: "gunicorn -b 0.0.0.0:80 application:application"
+  

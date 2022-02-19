@@ -1,13 +1,16 @@
 #Dockerfile
 FROM tensorflow/tensorflow:2.8.0
+FROM tiangolo/uwsgi-nginx-flask:python3.8
 
 WORKDIR /app
+ADD . /app
 
 RUN python3 -m pip install --upgrade pip \
     && pip3 --disable-pip-version-check --no-cache-dir install \
-    gunicorn 
+    gunicorn flask
+
+RUN python3 -m pip --no-cache-dir install -r requirements.txt
 
 COPY . .
-RUN python3 setup.py install
 
-CMD gunicorn -b 0.0.0.0:80 app:server
+CMD gunicorn -b 0.0.0.0:80 application:application
