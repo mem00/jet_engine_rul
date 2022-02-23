@@ -10,7 +10,7 @@
       <p class="lead">Let's predict the remaining useful life of jet turbine engines.</p>
     </div>
     <div class="container">
-      <div class="card-deck mb-3 text-center d-flex flex-row justify-content-center"">
+      <div class="card-deck mb-3 text-center d-flex flex-row justify-content-center">
         <div class="card mb-4 box-shadow m-2">
           <div class="card-header">
             <h4 class="my-0 font-weight-normal">LSTM</h4>
@@ -45,5 +45,24 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="mb-3 text-center d-flex flex-row justify-content-center"">
+      <form class="form-inline" method="GET" action="{{ url_for('predict_rul') }}">
+        <div class="form-group">
+          <div class="input-group form-inline">
+            <select name="engine_num" class="selectpicker form-control">
+              {% for num in range(100) %}
+                {% if num == engine_num %}
+                  <option selected="true" value="{{ num }}">{{ num }}</option>
+                {% else %}
+                  <option value="{{ num }}">{{ num }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-default btn-primary">Get engine</button>
+          </div>
+        </div>
+      </form>   
+    </div>   
   </body>
 </htmL>
