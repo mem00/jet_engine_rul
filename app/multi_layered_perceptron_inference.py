@@ -39,7 +39,6 @@ def prepare_input_data(engine_number, n=0, alpha=0.4):
     X_test_interim = np.float32(X_test_interim)
     X_test_interim = X_test_interim[engine_number,:]
     X_test_interim = X_test_interim.reshape(1, X_test_interim.shape[0])
-    print(X_test_interim, "what its training on")
     return X_test_interim, fd001_rul.iloc[engine_number, 0]
 
 def predict_mlp_rul(engine_number):

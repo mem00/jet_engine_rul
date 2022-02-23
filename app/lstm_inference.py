@@ -38,7 +38,7 @@ def get_test_sequence(engine_number):
     random_engine = random_engine.reshape(1, random_engine.shape[0], random_engine.shape[1])
     return random_engine, fd001_rul.iloc[engine_number, 0]
 
-def predict_rul(engine_number):
+def predict_lstm_rul(engine_number):
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(ROOT_DIR + '/static/models/')
     tflite_lstm_model_file = 'converted_lstm_model.tflite'
